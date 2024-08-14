@@ -4,6 +4,7 @@ import AST.*;
 import ErrorCheck.SemanticCheck;
 import Grammar.ReactParser;
 import Grammar.ReactParserBaseVisitor;
+import Main.Main;
 import SymbolTable.Scope;
 import SymbolTable.Symbol;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
 
 
 public class BaseVisitor extends ReactParserBaseVisitor<Node> {
-
+    Node lastParent;
     @Override
     public Node visitProgram(ReactParser.ProgramContext ctx) {
         System.out.println("\n");
@@ -53,6 +54,9 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
     @Override
     public Node visitStatement(ReactParser.StatementContext ctx) {
         Statement statement=new Statement();
+        String nodeName = ctx.getClass().getSimpleName();
+        statement.setAstNode(lastParent, ctx.start.getLine(), nodeName.substring(0, nodeName.length() - 7));
+        lastParent = statement;
         if(ctx.declaration()!=null){
             for(int i=0;i<ctx.declaration().size();i++)
              statement.addDeclaration((Declaration)visit(ctx.declaration(i)) );
@@ -155,23 +159,26 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
     @Override
     public Node visitElements(ReactParser.ElementsContext ctx) {
         Elements es= new Elements();
-        for(int i=0 ; i<ctx.children.size();i++){
-            es.addElement(visit(ctx.getChild(i)));
+        if(ctx.element()!=null){
+            for(int i=0 ; i<ctx.children.size();i++){
+                es.addElement(visit(ctx.getChild(i)));
+            }
         }
+        if(ctx.litral()!=null){
+            for (int i = 0; i < ctx.litral().size(); i++) {
+                es.addLiteral((ILiteral) visit(ctx.litral().get(i)));
+            }
+        }
+
         return es;
     }
 
-    @Override
-    public Node visitLitral(ReactParser.LitralContext ctx) {
-
-        return new Litral(ctx.getChild(0).getText());
-    }
 
     @Override
     public Node visitElement(ReactParser.ElementContext ctx) {
        Element e= new Element();
        for(int i=0 ; i<ctx.IDENTIFIERNAME().size();i++){
-           IElement ie=new IElement(ctx.IDENTIFIERNAME().get(i).toString(),ctx.IDENTIFIERNAME().get(i).toString());
+           IElement ie=new IElement(ctx.IDENTIFIERNAME().get(i).toString(), (ILiteral) ctx.litral());
             e.addElement(ie);
        }
          return e;
@@ -381,7 +388,7 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
 
     @Override
     public Node visitOperation(ReactParser.OperationContext ctx) {
-        return new operation(ctx.IDENTIFIERNAME().toString(),ctx.IDENTIFIERNAME().toString());
+        return new operation(ctx.IDENTIFIERNAME().toString(), (ILiteral) ctx.litral());
     }
 
     @Override
@@ -396,6 +403,32 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
         }
         Scope.removeScope("For Scope");
         return loop;
+    }
+
+    @Override
+    public Node visitIntegerLiteral(ReactParser.IntegerLiteralContext ctx) {
+        System.out.println("Integer Literal From Visitor");
+        IntegerLiteral integerLiteral = new IntegerLiteral();
+        String nodeName = ctx.getClass().getSimpleName();
+        int value = Integer.parseInt(ctx.getChild(0).getText());
+        integerLiteral.setValue(value);
+        integerLiteral.setAstNode(lastParent, ctx.start.getLine(), nodeName.substring(0, nodeName.length() - 7));
+        return integerLiteral;
+    }
+
+    @Override
+    public Node visitStringLiteral(ReactParser.StringLiteralContext ctx) {
+        StringLiteral stringLiteral = new StringLiteral();
+        String nodeName = ctx.getClass().getSimpleName();
+        stringLiteral.setAstNode(lastParent, ctx.start.getLine(), nodeName.substring(0, nodeName.length() - 7));
+
+        stringLiteral.setValue( ctx.getChild(0).getText());
+        return stringLiteral;
+    }
+
+    @Override
+    public Node visitExpressionAssignment(ReactParser.ExpressionAssignmentContext ctx) {
+        return new ExpressionAssignment(ctx.IDENTIFIERNAME().toString(), (Expression) visitExpression(ctx.expression()));
     }
 
     @Override
@@ -438,36 +471,82 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
         return IF_Condition;
     }
 
-    @Override
-    public Declaration visitDeclaration(ReactParser.DeclarationContext ctx) {
-        System.out.println("Declaration From Visitor");
-        Declaration declaration = new Declaration();
-        if (ctx.type() != null) {
-            declaration.setType((type) visit(ctx.type()));
-            for (int i = 0; i < ctx.assignment().size(); i++) {
-                declaration.addAssignment((Assignment) visit(ctx.assignment(i)));
-                Symbol symbol = Symbol.createSymbol(Objects.requireNonNull(Scope.getCurrentScope()).getId(), "Variable", declaration.getType().toString(), ctx.assignment(i).getChild(0).getText(),  ctx.start.getLine());
-                SemanticCheck.sameScopeRepeat(symbol, ctx.start.getLine(), Scope.getCurrentScope().getId());
-            }
-            for (int i = 0; i < ctx.IDENTIFIERNAME().size(); i++) {
-                declaration.addID(ctx.IDENTIFIERNAME(i).getText());
-                Symbol symbol = Symbol.createSymbol(Objects.requireNonNull(Scope.getCurrentScope()).getId(), "Variable", declaration.getType().toString(), ctx.IDENTIFIERNAME(i).getText(), ctx.start.getLine());
-                SemanticCheck.sameScopeRepeat(symbol, ctx.start.getLine(), Scope.getCurrentScope().getId());
-            }
-        }
-        return declaration;
-    }
+//    @Override
+//    public Declaration visitDeclaration(ReactParser.DeclarationContext ctx) {
+//        System.out.println("Declaration From Visitor");
+//        Declaration declaration = new Declaration();
+//        String nodeName = ctx.getClass().getSimpleName();
+//        declaration.setAstNode(lastParent, ctx.start.getLine(), nodeName.substring(0, nodeName.length() - 7));
+//        lastParent = declaration;
+//
+//        if(ctx.type()==null){
+//            Symbol symbol;
+//            for (int i = 0; i < ctx.assignment().size(); i++) {
+//                 symbol = Symbol.createSymbol(Scope.getCurrentScope().getId(), "Variable", declaration.getType().getValue(), ctx.assignment(i).getChild(0).getText(),  ctx.start.getLine());
+//                declaration.addAssignment((IAssignment) visit(ctx.assignment(i)));
+//                SemanticCheck.NotDefineInCurrentScope(String.valueOf(symbol), ctx.start.getLine(), Objects.requireNonNull(Scope.getCurrentScope()).getId());
+//
+//            }
+////            String error = "Error..! This var : " + symbol + " is not define inside scope" + " - Scope id : " + id + " in line : " + line;
+////            Main.logger.info(error);
+////            System.out.println(Main.ANSI_YELLOW + error + Main.ANSI_RESET);
+//        }
+//        if (ctx.type() != null) {
+//            declaration.setType((type) visit(ctx.type()));
+//            for (int i = 0; i < ctx.assignment().size(); i++) {
+//                Symbol symbol = Symbol.createSymbol(Scope.getCurrentScope().getId(), "Variable", declaration.getType().getValue(), ctx.assignment(i).getChild(0).getText(),  ctx.start.getLine());
+//                declaration.addAssignment((IAssignment) visit(ctx.assignment(i)));
+//                SemanticCheck.sameScopeRepeat(symbol, ctx.start.getLine(), Scope.getCurrentScope().getId());
+//            }
+//            for (int i = 0; i < ctx.IDENTIFIERNAME().size(); i++) {
+//                Symbol symbol = Symbol.createSymbol(Scope.getCurrentScope().getId(), "Variable", declaration.getType().getValue(), ctx.IDENTIFIERNAME(i).getText(), ctx.start.getLine());
+//                declaration.addID(ctx.IDENTIFIERNAME(i).getText());
+//                SemanticCheck.sameScopeRepeat(symbol, ctx.start.getLine(), Scope.getCurrentScope().getId());
+//            }
+//        }
+//        return declaration;
+//    }
+@Override
+public Declaration visitDeclaration(ReactParser.DeclarationContext ctx) {
+    System.out.println("Declaration From Visitor");
+    String nodeName = ctx.getClass().getSimpleName();
+    Declaration declaration = new Declaration();
+    declaration.setAstNode(lastParent, ctx.start.getLine(), nodeName.substring(0, nodeName.length() - 7));
+    lastParent = declaration;
 
-    @Override
-    public Node visitLiteralAssignment(ReactParser.LiteralAssignmentContext ctx) {
+    if (ctx.type() != null) {
+        declaration.setType((type) visit(ctx.type()));
+        for (int i = 0; i < ctx.assignment().size(); i++) {
+            lastParent = declaration;
+            Symbol symbol = Symbol.createSymbol(Scope.getCurrentScope().getId(), "Variable", declaration.getType().getValue(), ctx.assignment(i).getChild(0).getText(), ctx.start.getLine());
+            declaration.addAssignment((IAssignment) visit(ctx.assignment(i)));
+            SemanticCheck.sameScopeRepeat(symbol, ctx.start.getLine(), Scope.getCurrentScope().getId());
+        }
+        for (int i = 0; i < ctx.IDENTIFIERNAME().size(); i++) {
+            lastParent = declaration;
+            Symbol symbol = Symbol.createSymbol(Scope.getCurrentScope().getId(), "Variable", declaration.getType().getValue(), ctx.IDENTIFIERNAME(i).getText(), ctx.start.getLine());
+            declaration.addID(ctx.IDENTIFIERNAME(i).getText());
+            SemanticCheck.sameScopeRepeat(symbol, ctx.start.getLine(), Scope.getCurrentScope().getId());
+        }
+    } else {
+        declaration.setBaseClassID(ctx.IDENTIFIERNAME(0).getText());
+        declaration.setObjetID(ctx.IDENTIFIERNAME(1).getText());
+        Symbol symbol = Symbol.createSymbol(Scope.getCurrentScope().getId(), "Object", declaration.getBaseClassID(), declaration.getObjetID(), ctx.start.getLine());
+
+    }
+    return declaration;
+}
+
+//    @Override
+//    public Node visitLiteralAssignment(ReactParser.LiteralAssignmentContext ctx) {
 //        System.out.println("Literal Assignment From Visitor");
-        literalAssignment assignment = new literalAssignment();
+//        literalAssignment assignment = new literalAssignment();
 //        String nodeName = ctx.getClass().getSimpleName();
 //        assignment.setAstNode(lastParent, ctx.start.getLine(), nodeName.substring(0, nodeName.length() - 7));
 //        Identifier ID = new Identifier();
 //        ID.setID(ctx.IDENTIFIERNAME().get(0).getText());//
 //        //        assignment.setID(ctx.IDENTIFIER().get(0).getText());
-//        //lastParent = assignment;
+//        lastParent = assignment;
 //        assignment.setLiteral((ILiteral) visit(ctx.litral()));
 //        if (ctx.DOT() != null) {
 //            SemanticCheck.NotDefineInCurrentScope(ctx.IDENTIFIERNAME().get(0).getText(), ctx.start.getLine(), Scope.getCurrentScope().getId());
@@ -479,19 +558,44 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
 //            assignment.setID(ID);
 //            Scope scop = Scope.getCurrentScope().searchForSymbolInParents(assignment.getID().getID());
 //            System.out.println(scop.getName());
-//            Symbol sy = scop.searchForSymbol(assignment.getID().getID());
-//            if (sy != null) {
-//                SemanticCheck.checktypes(sy, (Node) assignment.getLiteral(), ctx.start.getLine());
+//            if (scop != null) {
+//                Symbol sy = scop.searchForSymbol(assignment.getID().getID());
+//                if (sy != null) {
+//                    SemanticCheck.checktypes(sy, (Node) assignment.getLiteral(), ctx.start.getLine());
+//                }
 //            }
 //        }
-        return assignment;
-    }
+//        return assignment;
+//    }
+@Override
+public Node visitLiteralAssignment(ReactParser.LiteralAssignmentContext ctx) {
+    System.out.println("Literal Assignment From Visitor");
+    literalAssignment assignment = new literalAssignment();
+    String nodeName = ctx.getClass().getSimpleName();
+    System.out.println(nodeName);
 
+    assignment.setAstNode(lastParent, ctx.start.getLine(), nodeName.substring(0, nodeName.length() - 7));
+    System.out.println(nodeName.substring(0, nodeName.length() - 7));
 
-    @Override
-    public Node visitExpsionAssignment(ReactParser.ExpsionAssignmentContext ctx) {
-        return new ExpressionAssignment(ctx.IDENTIFIERNAME().getText(), (Expression) visitExpression(ctx.expression()));
+    Identifier ID = new Identifier();
+    ID.setID(ctx.IDENTIFIERNAME().get(0).getText());//
+    //        assignment.setID(ctx.IDENTIFIER().get(0).getText());
+    lastParent = assignment;
+    assignment.setLiteral((ILiteral) visit(ctx.litral()));
+
+    if (ctx.DOT() == null) {
+        assignment.setID(ID);
+        SemanticCheck.NotDefineInCurrentScope(ctx.IDENTIFIERNAME().get(0).getText(), ctx.start.getLine(), Scope.getCurrentScope().getId());
+        Scope scop = Scope.getCurrentScope().searchForSymbolInParents(assignment.getID().getID());
+        if (scop != null) {
+            Symbol sy = scop.searchForSymbol(assignment.getID().getID());
+            if (sy != null) {
+                SemanticCheck.checktypes(sy, (Node) assignment.getLiteral(), ctx.start.getLine());
+            }
+        }
     }
+    return assignment;
+}
 
     @Override
     public Node visitExpression(ReactParser.ExpressionContext ctx) {

@@ -61,11 +61,19 @@ public interface ReactParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitList(ReactParser.ListContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ReactParser#litral}.
+	 * Visit a parse tree produced by the {@code integerLiteral}
+	 * labeled alternative in {@link ReactParser#litral}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLitral(ReactParser.LitralContext ctx);
+	T visitIntegerLiteral(ReactParser.IntegerLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code stringLiteral}
+	 * labeled alternative in {@link ReactParser#litral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringLiteral(ReactParser.StringLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ReactParser#elements}.
 	 * @param ctx the parse tree
@@ -271,12 +279,12 @@ public interface ReactParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLiteralAssignment(ReactParser.LiteralAssignmentContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code expsionAssignment}
+	 * Visit a parse tree produced by the {@code expressionAssignment}
 	 * labeled alternative in {@link ReactParser#assignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpsionAssignment(ReactParser.ExpsionAssignmentContext ctx);
+	T visitExpressionAssignment(ReactParser.ExpressionAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ReactParser#expression}.
 	 * @param ctx the parse tree

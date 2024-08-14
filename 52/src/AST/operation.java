@@ -2,9 +2,9 @@ package AST;
 
 public class operation extends Node {
     String id;
-    String value;
+    ILiteral value;
 
-    public operation(String id, String value) {
+    public operation(String id, ILiteral value) {
         this.id = id;
 
         this.value = value;

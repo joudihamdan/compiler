@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class SymbolTable {
-    private final ArrayList<Scope> scopes = new ArrayList<>();
+    private ArrayList<Scope> scopes = new ArrayList<>();
+    private static ArrayList<String> classess=new ArrayList<>();
+    private static ArrayList<String> specialFunction = new ArrayList<>();
 
-    private final Stack<Scope> scopeStack = new Stack<>();
+    private Stack<Scope> scopeStack = new Stack<>();
 
     public Scope getScopeByID(int id) {
         for (Scope scope : scopes) {
@@ -16,10 +18,17 @@ public class SymbolTable {
         }
         return null;
     }
+    public static boolean searchForClass(String clas){
+        return classess.contains(clas);
+    }
 
     public ArrayList<Scope> getScopes() {
         return scopes;
     }
+    public static boolean searchInSpecialFuncations(String function){
+        return specialFunction.contains(function);
+    }
+
 
     public Stack<Scope> getScopeStack() {
         return scopeStack;

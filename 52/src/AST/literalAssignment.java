@@ -1,32 +1,33 @@
 package AST;
 
-public class literalAssignment extends Assignment{
-    String id;
-    Litral Litral;
 
+public class literalAssignment extends Node implements IAssignment {
+    private Identifier ID;
+    private ILiteral literal;
 
-
-    public AST.Litral getLitral() {
-        return Litral;
+    public void setLiteral(ILiteral literal) {
+        this.literal = literal;
+        this.addNodeChild((Node) literal);
     }
 
-    public void setLitral(AST.Litral Litral) {
-        this.Litral = Litral;
+    public ILiteral getLiteral() {
+        return this.literal;
     }
 
-    public String getId() {
-        return id;
+    public Identifier getID() {
+        return ID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setID(Identifier ID) {
+        this.ID = ID;
     }
+
 
     @Override
     public String toString() {
-        return
-                "id = " + id +  ','+
-                "value=" + Litral
-                ;
+        return "LiteralAssignment{" +
+                "ID='" + ID + '\'' +
+                ", literal=" + literal +
+                '}';
     }
 }

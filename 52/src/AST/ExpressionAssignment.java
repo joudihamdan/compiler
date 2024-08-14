@@ -1,6 +1,6 @@
 package AST;
 
-public class ExpressionAssignment extends Assignment{
+public class ExpressionAssignment extends Node implements IAssignment{
 
     String id;
     Expression expression;
@@ -35,5 +35,15 @@ public class ExpressionAssignment extends Assignment{
                 " id= " + id + '\'' +
                 " expression= " + expression
                 ;
+    }
+
+    @Override
+    public Identifier getID() {
+        return null;
+    }
+
+    @Override
+    public void setID(Identifier id) {
+
     }
 }

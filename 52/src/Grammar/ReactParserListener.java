@@ -90,15 +90,29 @@ public interface ReactParserListener extends ParseTreeListener {
 	 */
 	void exitList(ReactParser.ListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ReactParser#litral}.
+	 * Enter a parse tree produced by the {@code integerLiteral}
+	 * labeled alternative in {@link ReactParser#litral}.
 	 * @param ctx the parse tree
 	 */
-	void enterLitral(ReactParser.LitralContext ctx);
+	void enterIntegerLiteral(ReactParser.IntegerLiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ReactParser#litral}.
+	 * Exit a parse tree produced by the {@code integerLiteral}
+	 * labeled alternative in {@link ReactParser#litral}.
 	 * @param ctx the parse tree
 	 */
-	void exitLitral(ReactParser.LitralContext ctx);
+	void exitIntegerLiteral(ReactParser.IntegerLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code stringLiteral}
+	 * labeled alternative in {@link ReactParser#litral}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringLiteral(ReactParser.StringLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code stringLiteral}
+	 * labeled alternative in {@link ReactParser#litral}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringLiteral(ReactParser.StringLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ReactParser#elements}.
 	 * @param ctx the parse tree
@@ -442,17 +456,17 @@ public interface ReactParserListener extends ParseTreeListener {
 	 */
 	void exitLiteralAssignment(ReactParser.LiteralAssignmentContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code expsionAssignment}
+	 * Enter a parse tree produced by the {@code expressionAssignment}
 	 * labeled alternative in {@link ReactParser#assignment}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpsionAssignment(ReactParser.ExpsionAssignmentContext ctx);
+	void enterExpressionAssignment(ReactParser.ExpressionAssignmentContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code expsionAssignment}
+	 * Exit a parse tree produced by the {@code expressionAssignment}
 	 * labeled alternative in {@link ReactParser#assignment}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpsionAssignment(ReactParser.ExpsionAssignmentContext ctx);
+	void exitExpressionAssignment(ReactParser.ExpressionAssignmentContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ReactParser#expression}.
 	 * @param ctx the parse tree

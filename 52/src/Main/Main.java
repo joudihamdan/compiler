@@ -21,6 +21,8 @@ public class Main {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static Logger logger = Logger.getLogger("MyLog");
+    public static int errorCount=0;
+
     public static SymbolTable symbolTable = new SymbolTable();
 
     public static void main(String[] args) {

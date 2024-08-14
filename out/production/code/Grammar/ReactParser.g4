@@ -38,9 +38,10 @@ list
     ;
 
 litral
-    :   INTEGER_LITERAL
-    | STRING_LITERAL
+     :INTEGER_LITERAL    #integerLiteral
+     |STRING_LITERAL #stringLiteral
     ;
+
 
 elements
     :(( element|  litral)( COMMA  (element|litral) )* )?
@@ -153,13 +154,14 @@ if
     ;
 
 declaration
- :  type? (IDENTIFIERNAME | assignment) (COMMA (IDENTIFIERNAME | assignment))*
+ :  type (IDENTIFIERNAME | assignment) (COMMA (IDENTIFIERNAME | assignment))*
  ;
 
 assignment
- : IDENTIFIERNAME EQUAL litral #literalAssignment
- | IDENTIFIERNAME EQUAL expression #expsionAssignment
+ :IDENTIFIERNAME ( DOT IDENTIFIERNAME)? EQUAL litral #literalAssignment
+ | IDENTIFIERNAME ( DOT IDENTIFIERNAME)?  EQUAL expression #expressionAssignment
  ;
+
 
 expression
  : OPENED_BRACES* operation CLOSED_BRACES*
@@ -177,4 +179,5 @@ type
    |forloop
    |if
    |call
+   |function
    ;

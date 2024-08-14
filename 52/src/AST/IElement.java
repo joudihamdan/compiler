@@ -2,9 +2,9 @@ package AST;
 
 public class IElement extends Node{
      String identifier;
-     String value;
+     ILiteral value;
 
-    public IElement(String identifier, String value) {
+    public IElement(String identifier, ILiteral value) {
         this.identifier = identifier;
         this.value = value;
     }

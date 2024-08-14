@@ -115,13 +115,25 @@ public class ReactParserBaseListener implements ReactParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLitral(ReactParser.LitralContext ctx) { }
+	@Override public void enterIntegerLiteral(ReactParser.IntegerLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLitral(ReactParser.LitralContext ctx) { }
+	@Override public void exitIntegerLiteral(ReactParser.IntegerLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStringLiteral(ReactParser.StringLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStringLiteral(ReactParser.StringLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -523,13 +535,13 @@ public class ReactParserBaseListener implements ReactParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpsionAssignment(ReactParser.ExpsionAssignmentContext ctx) { }
+	@Override public void enterExpressionAssignment(ReactParser.ExpressionAssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpsionAssignment(ReactParser.ExpsionAssignmentContext ctx) { }
+	@Override public void exitExpressionAssignment(ReactParser.ExpressionAssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
