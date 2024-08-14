@@ -1,0 +1,33 @@
+function App() {
+return (
+<div>
+ <h2> COMPILE PROJECT</h2>
+ </div>
+);
+}
+
+
+const Ref = (props)=>{
+const myRef=useRef() ;
+return (
+<div>
+ <h2> hello i from useref</h2>
+ <input ref={myRef}/>
+ </div>
+)
+}
+
+
+const Effect = (props)=>{
+
+useEffect(
+()=> {
+ consol.log("HELLO")
+},[ ])
+
+return (
+<div>
+ <h2> hello i from useeffect</h2>
+ </div>
+)
+}
