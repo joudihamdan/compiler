@@ -1,5 +1,4 @@
 lexer grammar ReactLexer;
-
 @header {
   package Grammar;
 }

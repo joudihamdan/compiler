@@ -14,7 +14,8 @@ public class IntegerLiteral extends Node implements ILiteral{
 	@Override
 	public String generate() {
 		String s ="";
-		s+=Integer.toString(getValue());
+		//s+=Integer.toString(getValue());
+		s+=value;
 		return s;
 	}
 	@Override

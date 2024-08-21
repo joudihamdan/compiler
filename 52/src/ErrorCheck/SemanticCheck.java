@@ -34,6 +34,7 @@ public class SemanticCheck {
                 if (!symbol.equals(symbol1))
                     if (symbol.getValue().equals(symbol1.getValue())) {
                     String error = "Error..! This var : " + symbol1.getValue() + " is used before " + " - Scope id : " + id + " in line : " + line;
+                    Main.logger.info(error);
                     System.out.println(Main.ANSI_YELLOW + error + Main.ANSI_RESET);
                     StoreError.counter++;
                     s.push(x);

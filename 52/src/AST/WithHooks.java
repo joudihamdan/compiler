@@ -1,5 +1,7 @@
 package AST;
 
+import java.lang.ref.SoftReference;
+
 public class WithHooks extends  Node{
 
     private ArrowComponent arrowComponent;
@@ -14,7 +16,18 @@ public class WithHooks extends  Node{
     public void setExported(boolean exported) {
         isExported = exported;
     }
+public String generateList(String listName){
+    String s="";
 
+    if (componentBody != null) {
+        s += listName + ".forEach(product => {";
+        s += componentBody.generateList("productList");
+    }
+   s+= arrowComponent.generatewith("showProductDetails");
+    s+=componentBody.generatewith("product");
+   s+="\n}";
+    return s;
+}
     @Override
     public String toString() {
         return "WithUseState{" +

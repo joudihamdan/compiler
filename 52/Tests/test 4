@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple Example</title>
+</head>
+
+<body>
+<h1>Welcome to my simple example</h1>
+<button onclick="greetUser()">Click me</button>
+
+<script>
+    function greetUser() {
+        alert("Hello, user!");
+    }
+</script>
+</body>
+
+</html>

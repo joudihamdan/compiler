@@ -26,7 +26,7 @@ public class StringLiteral extends Node implements ILiteral{
 	public String generate() {
 		String s ="";
 		if (value!=null)
-			s+=getValue();
+			s+= getValue() ;
 		else if (identifier!=null)
 			s+=identifier.generate();
 		s+="";

@@ -5,7 +5,8 @@ import java.util.List;
 
 public class program extends Node {
 
-     list list;
+
+    list list;
      WithHooks withHooks;
      List<ArrowComponent> singleComponentlist=new ArrayList<>();
      SingleComponent Component;
@@ -49,6 +50,40 @@ public class program extends Node {
     public void setComponent(SingleComponent component) {
         Component = component;
     }
+
+    @Override
+    public String generate() {
+        String s="";
+        if(singleComponentlist!=null){
+            for (int i = 0; i < singleComponentlist.size() ; i++) {
+                s+=singleComponentlist.get(i).generate();
+
+            }
+            s+=withHooks.generate();
+        }
+        if(Component!=null){
+            s+= Component.generate();
+        }
+        return  s;
+    }
+
+
+    public  String generateList(){
+        String s="";
+        if (list!=null){
+            s+=list.generate();
+        }
+        if(singleComponentlist!=null){
+            for (int i = 0; i < singleComponentlist.size() ; i++) {
+                s+=singleComponentlist.get(i).generate1(list.identifier);
+
+            }
+        }
+        s+=withHooks.generateList(list.identifier);
+        return  s;
+
+    }
+
 
     @Override
     public String toString() {

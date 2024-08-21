@@ -44,6 +44,31 @@ public class JSXElements extends Node{
     }
 
     @Override
+    public String generate() {
+        String s="";
+        if(openTag!=null)
+            s+= openTag.generate() +"" + tagContent.generate() + closeTag.generate();
+        else
+        {
+            s+=selfClosing.generate();
+        }
+        return  s;
+    }
+
+    public String generateList(String name ,String listName) {
+        String s="";
+         s+=name+".textContent = product.name; \n";
+         s+=name+".addEventListener";
+         if(openTag!=null) {
+             s += openTag.generateList();
+             s += tagContent.generateList();
+             s += listName + ".appendChild (" + name + ");";
+             s += "\n });\n";
+         }
+        return  s;
+    }
+
+    @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(" {  ");

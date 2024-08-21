@@ -130,7 +130,7 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
         Usestate usestate=new Usestate();
         usestate.setId(ctx.IDENTIFIERNAME(0).toString());
         usestate.setFunid(ctx.IDENTIFIERNAME(1).toString());
-        usestate.setUsestate( visit(ctx.STRING_LITERAL()).toString());
+        usestate.setUsestate( (ctx.IDENTIFIERNAME()).toString());
         usestate.setConstFunction((ConstFunction)visit(ctx.constfunction()) );
         Symbol symbol=  Symbol.createSymbol(Objects.requireNonNull(Scope.getCurrentScope()).getId(), "Hooks", "UseState", ctx.IDENTIFIERNAME().toString(),ctx.start.getLine());
         SemanticCheck.checkHooksUsage(symbol,ctx.start.getLine(), Scope.getCurrentScope().getId());
@@ -149,19 +149,20 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
     @Override
     public Node visitList(ReactParser.ListContext ctx) {
         Scope.createScope("List Scope");
-        list es= new list(ctx.IDENTIFIERNAME().getText(),visit(ctx.elements()));
+        list es= new list(ctx.IDENTIFIERNAME().getText(),(Elements) visit(ctx.elements()));
 
         Symbol.createSymbol(Objects.requireNonNull(Scope.getCurrentScope()).getId(), "List", "Const", ctx.IDENTIFIERNAME().getText(),ctx.start.getLine());
         Scope.removeScope("List Scope");
         return es;
     }
 
+
     @Override
     public Node visitElements(ReactParser.ElementsContext ctx) {
         Elements es= new Elements();
         if(ctx.element()!=null){
-            for(int i=0 ; i<ctx.children.size();i++){
-                es.addElement(visit(ctx.getChild(i)));
+            for(int i=0 ; i<ctx.element().size();i++){
+                es.addElement((Element) visitElement(ctx.element().get(i)) );
             }
         }
         if(ctx.litral()!=null){
@@ -170,6 +171,10 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
             }
         }
 
+//        Elements es= new Elements();
+//        for(int i=0 ; i<ctx.children.size();i++){
+//            es.addElement(visit(ctx.getChild(i)));
+//        }
         return es;
     }
 
@@ -177,10 +182,18 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
     @Override
     public Node visitElement(ReactParser.ElementContext ctx) {
        Element e= new Element();
-       for(int i=0 ; i<ctx.IDENTIFIERNAME().size();i++){
-           IElement ie=new IElement(ctx.IDENTIFIERNAME().get(i).toString(), (ILiteral) ctx.litral());
+        for(int i=0 ; i<ctx.litral().size();i++) {
+            IElement ie = new IElement(ctx.IDENTIFIERNAME().get(i).toString(), (ILiteral) visit(ctx.litral(i)));
             e.addElement(ie);
-       }
+        }
+//        for(int i=0 ; i<ctx.IDENTIFIERNAME().size();i++){
+//            e.addIds(ctx.children.toString());
+//        }
+//        for(int i=0 ; i<ctx.litral().size();i++){
+//            e.addLiterals((ILiteral) visit(ctx.litral(i)));
+//
+//        }
+
          return e;
     }
 
@@ -216,6 +229,9 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
                 ctx.IDENTIFIERNAME().toString(),
                 (Openpraces) visit(ctx.openbraces())
         );
+        if(ctx.componentBody()!=null){
+            arrowComponent.setComponentBodyList((ComponentBody) visit(ctx.componentBody()));
+        }
         Symbol.createSymbol(Objects.requireNonNull(Scope.getCurrentScope()).getId(), "Component", "ArrowComponent",ctx.IDENTIFIERNAME().toString(),ctx.start.getLine() );
         Scope.removeScope("Component Scope");
         return arrowComponent;
@@ -232,11 +248,17 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
     @Override
     public Node visitOpenbraces(ReactParser.OpenbracesContext ctx) {
         Openpraces op=new Openpraces();
-        if(ctx.STRING_LITERAL()!=null)
-            op.setS(ctx.STRING_LITERAL().toString());
-        for(int i=0;i<ctx.children.size();i++){
-            op.addAttributes(visit(ctx.getChild(i)));
+        if(ctx.STRING_LITERAL()!=null) {
+            for (int i = 0; i < ctx.STRING_LITERAL().size(); i++) {
+                op.addStatment(ctx.getChild(i).getText());
+            }
         }
+        if(ctx.attribute()!=null  ) {
+            for (int i = 0; i < ctx.children.size(); i++) {
+                op.addAttributes((IAttribute) visit(ctx.getChild(i)));
+            }
+        }
+
         return  op;
     }
 
@@ -388,7 +410,7 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
 
     @Override
     public Node visitOperation(ReactParser.OperationContext ctx) {
-        return new operation(ctx.IDENTIFIERNAME().toString(), (ILiteral) ctx.litral());
+        return new operation(ctx.IDENTIFIERNAME().toString(),(ILiteral) visit(ctx.litral()) );
     }
 
     @Override

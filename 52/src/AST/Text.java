@@ -1,6 +1,6 @@
 package AST;
 
-public class Text extends Node{
+public class Text extends Node implements  IAttribute{
      String attributeName;
 
     public Text(String attributeName) {

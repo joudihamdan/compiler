@@ -5,16 +5,43 @@ import java.util.List;
 
 public class Openpraces extends Node{
 
-   List<Node> attributes=new ArrayList<>();
-   String s;
+  List<IAttribute> attributes=new ArrayList<>();
+  List <String> statment=new ArrayList<>();
 
 
-  public void setS(String s) {
-    this.s = s;
+  public void addStatment(String st) {
+    statment.add(st);
   }
 
-  public void addAttributes(Node node) {
+  public void addAttributes(IAttribute node) {
     attributes.add(node);
+  }
+
+  @Override
+  public String generate(){
+    String a = "";
+    if(statment!=null){
+      for (int i = 0; i < statment.size(); i++) {
+        a+=statment.get(i);
+      }
+    }
+    return  a;
+  }
+
+  public String generateList(String att){
+    String s = "";
+
+    if(att=="product")
+    {
+      s+="("+att+")\n";
+    }
+   else{
+      s+="( \'";
+      s+=att;
+      s+="\' ); \n";
+    }
+
+    return  s;
   }
 
   @Override
@@ -22,14 +49,15 @@ public class Openpraces extends Node{
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(" {");
 
-    for (Node c : attributes) {
+    for (IAttribute c : attributes) {
       if(c!=null){
-      stringBuilder.append(c);
-    }
+        stringBuilder.append(c);
+      }
     }
 
-    if(s!=null)
-      stringBuilder.append(s);
+      if(!statment.isEmpty()){
+        stringBuilder.append(statment);}
+
     stringBuilder.append("}");
     return stringBuilder.toString();
 

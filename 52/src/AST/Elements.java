@@ -4,18 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Elements extends Node {
-    private List<Node> maps;
-    private List<ILiteral> literals;
+    private List<Element> maps=new ArrayList<>();
+    private ArrayList<ILiteral> literals=new ArrayList<>();
 
 
 
-    public void addElement(Node element) {
+    public void addElement(Element element) {
         maps.add(element);
     }
     public void addLiteral(ILiteral literal) {
         literals.add(literal);
     }
 
+    public  String generate(){
+        String s="";
+        if(maps!=null){
+            for (int i = 0; i < maps.size(); i++) {
+                s+=maps.get(i).generate();
+
+                if(i !=maps.size()-1){
+                    s+= ",\n";
+                }
+            }
+        }
+return  s;
+    }
 
     @Override
     public String toString() {
@@ -24,7 +37,7 @@ public class Elements extends Node {
         stringBuilder.append("{");
         stringBuilder.append("\n");
        if(maps!=null){
-           for (Node c : maps) {
+           for (Element c : maps) {
                if (c != null) {
                    stringBuilder.append(" {");
                    stringBuilder.append(c);

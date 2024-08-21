@@ -3,7 +3,7 @@ package AST;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Multiattribute extends Node {
+public class Multiattribute extends Node implements IAttribute{
 
     private List<String> attributeNames =new ArrayList<>();
 

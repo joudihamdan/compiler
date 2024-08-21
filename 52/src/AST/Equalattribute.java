@@ -1,6 +1,6 @@
 package AST;
 
-public class Equalattribute extends Node {
+public class Equalattribute extends Node implements IAttribute {
     private String attributeName;
     private String mapIdentifier;
     private String mapKey;

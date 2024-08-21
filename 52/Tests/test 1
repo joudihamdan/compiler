@@ -1,6 +1,11 @@
 
+useEffect(
+()=> {
+ consol.log("HELLO")
+},[ ])
+
 int y="Compiler"
-  int y=0;
+ int y=0
  for(int i=0;i<3;i++) {
    if(i=2)
     consol.log("hello world ")

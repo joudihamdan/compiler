@@ -24,7 +24,7 @@ const productsData = [
   }
 ]
 
-const ProductList = ({ products, onProductClick }) => (
+const productList = ({ products, onProductClick }) => (
   <div style={{ float: "left", width: "30%" }}>
     <h2>Product List</h2>
     <ul>

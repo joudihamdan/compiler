@@ -2,7 +2,7 @@ package AST;
 
 import java.util.List;
 
-public class Dotattribute extends Node {
+public class Dotattribute extends Node implements  IAttribute{
 
      String id1;
      Node dotid;

@@ -4,21 +4,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Element extends  Node{
+//    public List<String> ids =new ArrayList<>();
+//    public ArrayList<ILiteral> literals =new ArrayList<>();
 
-    public List<IElement> elements =new ArrayList<>();
+public void addElement(IElement element) {
+    elements.add(element);
+}
+//
+//
+  public List<IElement> elements =new ArrayList<>();
+//
+//
+//
+//    public void addIds(String id) {
+//        ids.add(id);
+//    }
+//    public void addLiterals(ILiteral literal) {
+//        literals.add(literal);
+//    }
+//
 
 
-    public List<IElement> getElements() {
-        return elements;
+    public  String generate(){
+        String s="";
+        s+="{ \n";
+        if(elements!=null){
+            int i=0;
+            for ( i = 0; i < elements.size(); i++) {
+                s+= elements.get(i).generate();
+
+            }
+            s+= " } ";
+        }
+        return  s;
     }
 
-    public void setElements(List<IElement> elements) {
-        this.elements = elements;
-    }
-
-    public void addElement(IElement element) {
-        elements.add(element);
-    }
 
     @Override
     public String toString() {

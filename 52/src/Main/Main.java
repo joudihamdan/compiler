@@ -1,13 +1,19 @@
 package Main;
 
+import AST.program;
+import ErrorCheck.ErrorSyntax;
+import ErrorCheck.StoreError;
 import Grammar.ReactLexer;
 import Grammar.ReactParser;
 import SymbolTable.SymbolTable;
+import genaration.Generator;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import java.io.IOException;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import static org.antlr.v4.runtime.CharStreams.fromFileName;
 import  Visitor.BaseVisitor;
@@ -26,15 +32,40 @@ public class Main {
     public static SymbolTable symbolTable = new SymbolTable();
 
     public static void main(String[] args) {
+        FileHandler fh;
         try {
-            String source = "52/Tests/test 1";
+            fh = new FileHandler("ErrorsLogFile.log");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+        } catch (SecurityException | IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            String source = "52/Tests/test 2";
             CharStream cs = fromFileName(source);
             ReactLexer lexer = new ReactLexer(cs);
             CommonTokenStream token = new CommonTokenStream(lexer);
             ReactParser parser = new ReactParser(token);
-            ParseTree tree = parser.program();
-            BaseVisitor s= new BaseVisitor();
-            System.out.println(s.visit(tree).toString());
+
+            //Syntax Error Handling
+            parser.removeErrorListeners();
+            parser.addErrorListener( ErrorSyntax.INSTANCE);
+
+           ParseTree tree = parser.program();
+//            BaseVisitor s= new BaseVisitor();
+//            System.out.println(s.visit(tree).toString());
+          // if (StoreError.errorList.isEmpty()) {
+                 BaseVisitor s = new BaseVisitor();
+                program program = (program) s.visit(tree);
+                System.out.println(program.toString());
+//
+                Generator codeGeneration=new Generator();
+                codeGeneration.startGenerate(program);
+////
+//            } else {
+//                ErrorSyntax.writeErrorsOnFile();
+//            }
 
         } catch (IOException e) {
             e.printStackTrace();

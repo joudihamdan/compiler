@@ -13,6 +13,22 @@ public class TagContent extends  Node{
     }
 
     @Override
+    public String generate() {
+        String s="";
+        if(tagcontent!=null){
+            for (int i = 0; i < tagcontent.size(); i++) {
+                s+=tagcontent.get(i).generate();
+            }
+        }
+        return  s;
+    }
+
+    public String generateList() {
+        String s="";
+       s+="() => showProductDetails(product));\n";
+        return  s;
+    }
+    @Override
     public String toString() {
         return "{" +tagcontent + " "+
                 '}';
