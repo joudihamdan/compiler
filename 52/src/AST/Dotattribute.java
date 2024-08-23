@@ -7,6 +7,8 @@ public class Dotattribute extends Node implements  IAttribute{
      String id1;
      Node dotid;
 
+    String id2;
+
     public Dotattribute(String id1, Node dotid) {
         this.id1 = id1;
         this.dotid = dotid;
@@ -28,6 +30,18 @@ public class Dotattribute extends Node implements  IAttribute{
         this.dotid = dotid;
     }
 
+
+    public  String generate(){
+        String s="";
+        s+= '{'+ id1 +'.';
+
+        if(dotid!=null){
+            s+=dotid;
+        }
+        s+= '}';
+
+        return  s;
+    }
 
 
     @Override

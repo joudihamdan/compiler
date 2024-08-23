@@ -19,6 +19,13 @@ public class FunctionalComponent extends Node{
     }
 
     @Override
+    public String generate() {
+        String s="";
+        s+="function "+openpraces.generate();
+        return s;
+    }
+
+    @Override
     public String toString() {
         return "FunctionalComponent{" +
                 "componentName='" + componentName + '\'' +

@@ -16,6 +16,24 @@ public class UseEffect extends Node{
         st.add(statement);
     }
 
+
+//    @Override
+//    public String generate() {
+//        String s="";
+//        s+=function.generate() ;
+//        if(st!=null){
+//            for (int i = 0; i < st.size(); i++) {
+//                s+= st.get(i).generate();
+//            }
+//
+//        }
+//        if(at!=null){
+//            for (int i = 0; i < at.size(); i++) {
+//                s+=at.get(i).generate();
+//            }
+//        }
+//        return  s;
+//    }
     @Override
     public String toString() {
 

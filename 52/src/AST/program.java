@@ -57,7 +57,6 @@ public class program extends Node {
         if(singleComponentlist!=null){
             for (int i = 0; i < singleComponentlist.size() ; i++) {
                 s+=singleComponentlist.get(i).generate();
-
             }
             s+=withHooks.generate();
         }
@@ -79,7 +78,9 @@ public class program extends Node {
 
             }
         }
+        if(withHooks!=null)
         s+=withHooks.generateList(list.identifier);
+
         return  s;
 
     }

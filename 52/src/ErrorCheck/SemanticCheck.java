@@ -36,16 +36,17 @@ public class SemanticCheck {
                     String error = "Error..! This var : " + symbol1.getValue() + " is used before " + " - Scope id : " + id + " in line : " + line;
                     Main.logger.info(error);
                     System.out.println(Main.ANSI_YELLOW + error + Main.ANSI_RESET);
-                    StoreError.counter++;
+                    Main.errorCount++;
                     s.push(x);
                     return;
                 }
             } else if (symbol.getName().equals("Component")) {
-                if (!symbol.equals(symbol1)) if (symbol.getValue().equals(symbol1.getValue())) {
+                if (!symbol.equals(symbol1))
+                    if (symbol.getValue().equals(symbol1.getValue())) {
                     String error = "Error..! This Component : " + symbol1.getValue() + " is used before " + " - Scope id : " + id + " in line : " + line;
                     Main.logger.info(error);
                     System.out.println(Main.ANSI_YELLOW + error + Main.ANSI_RESET);
-                    StoreError.counter++;
+                    Main.errorCount++;
                     s.push(x);
                     return;
                 }
@@ -76,8 +77,8 @@ public class SemanticCheck {
                 return;
             }
         }
-
     }
+
     public static void checkMatchVariableWithString(Node node, Symbol symbol, int line) {
 
         if (node.getNodeType().equals("IntegerLiteral") ) {
@@ -108,13 +109,7 @@ public class SemanticCheck {
         Scope x = s.pop();
         System.out.println("scope:" + x.getId());
         for (Symbol symbol : x.getSymbolList()) {
-            if (symbol.getName().equals("Variable") || symbol.getName().equals("Object")) {
-                if (symbol.getValue().equals(symbol1)) {
-                    System.out.println("test true");
-                    s.push(x);
-                    return;
-                }
-            } else if (symbol.getName().equals("Function")) {
+            if (symbol.getName().equals("Variable")) {
                 if (symbol.getValue().equals(symbol1)) {
                     System.out.println("test true");
                     s.push(x);

@@ -25,6 +25,7 @@ public class TagContent extends  Node{
 
     public String generateList() {
         String s="";
+        s+="( 'click' , ";
        s+="() => showProductDetails(product));\n";
         return  s;
     }

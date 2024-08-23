@@ -23,15 +23,12 @@ public class Generator {
     }
     public void startGenerate(program program) {
 
-
         this.createJSPage("global");
         String Component1 = program.generateList();
         currentPage.writeOnFile(Component1);
         currentPage.closeFile();
         this.createHTMLPage("ProductPage");
-
         String bodyString = "";
-
         String scriptString = "";
         scriptString += "\n\t\t<script src=\" ./global.js \">";
         scriptString += "</script>\n ";
@@ -122,6 +119,8 @@ public  String getBodyString(){
                 "    </div>\n" +
                 "</div>";
 }
+
+
     public String getHtmlCode(String html) {
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +

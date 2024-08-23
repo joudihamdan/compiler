@@ -17,6 +17,11 @@ String type;
         return type;
     }
 
+    @Override
+    public String generate() {
+        String s="let ";
+        return s;
+    }
 
     @Override
     public String toString() {

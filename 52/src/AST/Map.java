@@ -26,6 +26,12 @@ public class Map extends Node{
     }
 
     @Override
+    public String generate() {
+        String s ="";
+        s+=openpraces.generate() + jsxElements.generate();
+        return s;
+    }
+    @Override
     public String toString() {
         return "Map{" +
                 "openpraces=" + openpraces +

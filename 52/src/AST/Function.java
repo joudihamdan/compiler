@@ -1,8 +1,18 @@
 package AST;
 
 public class Function extends  Node{
+
+    String functionName;
   private Openpraces openpraces;
   private  call call;
+
+    public String getFunctionName() {
+        return functionName;
+    }
+
+    public void setFunctionName(String functionName) {
+        this.functionName = functionName;
+    }
 
     public Function(Openpraces openpraces) {
         this.openpraces = openpraces;
@@ -23,6 +33,18 @@ public class Function extends  Node{
     public void setCall(AST.call call) {
         this.call = call;
     }
+
+
+    @Override
+    public String generate() {
+        String s="";
+        s+= "("+ getFunctionName() +")";
+        if (call!=null){
+            s+= call.generate();
+        }
+        return s;
+    }
+
 
     @Override
     public String toString() {

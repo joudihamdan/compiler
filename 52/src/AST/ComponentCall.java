@@ -29,6 +29,16 @@ public class ComponentCall extends Node {
     }
 
 
+    public  String generateBody(){
+        String s= "";
+        s+=name;
+        if (identifier!=null){
+            for (int i = 0; i <identifier.size() ; i++) {
+                s+=identifier.get(i).toString() +'='+obj.get(i).toString();
+            }
+        }
+        return s;
+    }
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

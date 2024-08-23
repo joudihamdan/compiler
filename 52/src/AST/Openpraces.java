@@ -44,6 +44,18 @@ public class Openpraces extends Node{
     return  s;
   }
 
+
+
+  public String generateAtt(){
+    String a = "";
+    if(attributes!=null){
+      for (int i = 0; i < attributes.size(); i++) {
+        a+=attributes.get(i);
+      }
+    }
+    return  a;
+  }
+
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();

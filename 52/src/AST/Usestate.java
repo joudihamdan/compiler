@@ -22,7 +22,12 @@ public class Usestate extends Node{
     public void setFunid(String funid) {
         this.funid = funid;
     }
-
+    @Override
+    public String generate() {
+        String s="";
+        s+= constFunction.generate1(usestate);
+        return s;
+    }
     @Override
     public String toString() {
         return "{" +

@@ -1,0 +1,18 @@
+
+function SimpleExample() {
+  const [message, setMessage] = useState("Hello,user!");
+
+  const greetUser = () => {
+    alert(message);
+  };
+
+  return (
+    <div>
+      <h1>Welcome to my simple Example</h1>
+      <button onClick={greetUser}>Click me</button>
+    </div>
+  );}
+
+    export default SimpleExample;
+
+

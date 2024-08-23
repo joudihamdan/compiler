@@ -13,6 +13,12 @@ public class Select extends  Node{
 
 
     @Override
+    public String generate() {
+        String s="";
+        s+=identifier +" "+ jsxElements.generate();
+        return  s;
+    }
+    @Override
     public String toString() {
         return "Select{" +
                 "identifier='" + identifier + '\'' +

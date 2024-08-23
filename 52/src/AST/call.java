@@ -11,6 +11,11 @@ public class call  extends Node {
         this.openpraces = openpraces;
     }
 
+    public String generate(String st){
+        String s ="";
+        s+=functionname + '('+ st+");";
+        return  s;
+    }
 
     @Override
     public String toString() {

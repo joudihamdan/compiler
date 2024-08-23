@@ -21,7 +21,14 @@ public class literalAssignment extends Node implements IAssignment {
     public void setID(Identifier ID) {
         this.ID = ID;
     }
-
+    @Override
+    public String generate() {
+        String s = "";
+        s += ID.generate();
+        s += "=";
+        s += literal.generate();
+        return s;
+    }
 
     @Override
     public String toString() {

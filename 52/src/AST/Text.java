@@ -7,6 +7,11 @@ public class Text extends Node implements  IAttribute{
         this.attributeName = attributeName;
     }
 
+    public  String generate(){
+        String s="";
+        s+=attributeName+" ";
+        return  s;
+    }
 
     @Override
     public String toString() {

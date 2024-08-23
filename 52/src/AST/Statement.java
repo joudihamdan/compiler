@@ -24,7 +24,24 @@ public class Statement extends Node {
     public void addDeclaration(Declaration d) {
         declaration.add(d);
     }
+    @Override
+    public String generate() {
+        String s="";
+        for (int i = 0; i < declaration.size(); i++) {
+            s+=declaration.get(i).generate();
+        }
 
+        if(f!=null){
+            s+=f.generate();
+        }
+        if(ifc!=null){
+            s+=ifc.generate();
+        }
+        if(call!=null){
+            s+=call.generate();
+        }
+        return  s;
+    }
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

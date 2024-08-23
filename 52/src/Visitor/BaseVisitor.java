@@ -230,6 +230,7 @@ public class BaseVisitor extends ReactParserBaseVisitor<Node> {
                 (Openpraces) visit(ctx.openbraces())
         );
         if(ctx.componentBody()!=null){
+            System.out.println("commmmmmmmmmmmmmmmmmmmmmmmm1");
             arrowComponent.setComponentBodyList((ComponentBody) visit(ctx.componentBody()));
         }
         Symbol.createSymbol(Objects.requireNonNull(Scope.getCurrentScope()).getId(), "Component", "ArrowComponent",ctx.IDENTIFIERNAME().toString(),ctx.start.getLine() );

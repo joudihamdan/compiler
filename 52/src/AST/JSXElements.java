@@ -59,8 +59,7 @@ public class JSXElements extends Node{
         String s="";
          s+=name+".textContent = product.name; \n";
          s+=name+".addEventListener";
-         if(openTag!=null) {
-             s += openTag.generateList();
+         if(tagContent!=null) {
              s += tagContent.generateList();
              s += listName + ".appendChild (" + name + ");";
              s += "\n });\n";

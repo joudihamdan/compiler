@@ -13,20 +13,10 @@ public class ConstFunction extends Node {
         this.call = call;
     }
 
-    public String getFunctionname() {
-        return functionname;
-    }
-
-    public void setFunctionname(String functionname) {
-        this.functionname = functionname;
-    }
-
-    public Openpraces getOpenpraces() {
-        return openpraces;
-    }
-
-    public void setOpenpraces(Openpraces openpraces) {
-        this.openpraces = openpraces;
+    public String generate1(String st) {
+        String s="";
+        s+= functionname +"( "+") "+"{"+"\n"+call.generate(st)+"\n"+"}"+"\n";
+        return  s;
     }
 
     public AST.call getCall() {

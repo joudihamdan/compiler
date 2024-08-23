@@ -8,6 +8,12 @@ public class Selectattribute extends Node implements IAttribute {
     }
 
     @Override
+    public String generate() {
+        String s="";
+        s+=select.generate();
+        return s;
+    }
+    @Override
     public String toString() {
         return "SelectAttribute {" + select +
                 '}';

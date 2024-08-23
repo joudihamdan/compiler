@@ -18,7 +18,23 @@ public class Hooks extends Node{
     public void setUseEffect(UseEffect useEffect) {
         this.useEffect = useEffect;
     }
+    @Override
+    public String generate() {
+        String s="";
+        if (usestate!=null){
 
+            s+=usestate.generate();
+
+        }
+        else if(useRef!=null){
+            s+= useRef.generate();
+        }
+        else {
+            s+= useEffect.generate();
+        }
+
+        return s;
+    }
     @Override
     public String toString() {
 

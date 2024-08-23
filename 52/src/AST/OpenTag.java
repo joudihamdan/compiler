@@ -49,11 +49,7 @@ public class OpenTag extends Node{
         return  s;
     }
 
-    public String generateList() {
-        String s = "";
-        s+="( 'click' , ";
-        return  s;
-    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

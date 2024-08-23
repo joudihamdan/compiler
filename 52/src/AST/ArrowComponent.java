@@ -17,12 +17,10 @@ public class ArrowComponent extends Node{
         this.componentName = componentName;
         this.openpraces = openpraces;
     }
-    public void setComponentName(String componentName) {
-        this.componentName = componentName;
-    }
 
     public  String generate1(String listName) {
-        String s = "\n ";
+        String s="";
+                s+= "\n ";
         if (Objects.equals(componentName, "productList")) {
             s += "const " + componentName + "=" + "document.getElementById";
             s += openpraces.generateList("product-list");
@@ -56,6 +54,7 @@ public class ArrowComponent extends Node{
                 }
             }
         }
+      //  s+=openpraces.generateAtt();
 
         return  s;
     }
@@ -65,6 +64,12 @@ public class ArrowComponent extends Node{
         s+="function "+listName +openpraces.generateList("product") + "{";
 
         return  s;
+    }
+
+    public  String generate(){
+        String s="";
+        s += componentName +" " + openpraces.generate();
+        return s;
     }
 
 

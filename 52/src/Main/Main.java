@@ -49,28 +49,28 @@ public class Main {
             ReactParser parser = new ReactParser(token);
 
             //Syntax Error Handling
-            parser.removeErrorListeners();
-            parser.addErrorListener( ErrorSyntax.INSTANCE);
+//            parser.removeErrorListeners();
+//            parser.addErrorListener( ErrorSyntax.INSTANCE);
 
-           ParseTree tree = parser.program();
-//            BaseVisitor s= new BaseVisitor();
-//            System.out.println(s.visit(tree).toString());
-          // if (StoreError.errorList.isEmpty()) {
-                 BaseVisitor s = new BaseVisitor();
+            ParseTree tree = parser.program();
+
+
+            if (StoreError.errorList.isEmpty()) {
+                BaseVisitor s = new BaseVisitor();
                 program program = (program) s.visit(tree);
                 System.out.println(program.toString());
 //
                 Generator codeGeneration=new Generator();
                 codeGeneration.startGenerate(program);
-////
-//            } else {
-//                ErrorSyntax.writeErrorsOnFile();
-//            }
+//
+            }
+            //  } else {
+            //     ErrorSyntax.writeErrorsOnFile();
+            // }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
             //-------------------------- Symbol Table -------------------------------------
         System.out.println("------------------------- Symbol Table -------------------------");
         System.out.println("Number of Scopes in the program : " + Scope.getContId());

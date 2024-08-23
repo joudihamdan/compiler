@@ -21,6 +21,17 @@ public class SingleComponent extends  Node{
     }
 
     @Override
+    public String generate() {
+        String s="";
+        if(arrowComponent!=null){
+            s+=arrowComponent.generate();
+        }
+        if(functionalComponent!=null)
+            s+= functionalComponent.generate();
+        s+= componentBody.generate();
+        return s;
+    }
+    @Override
     public String toString() {
         StringBuilder stringBuilder=new StringBuilder();
         if(functionalComponent!=null) {

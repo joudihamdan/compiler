@@ -15,6 +15,25 @@ public class Multiattribute extends Node implements IAttribute{
         return attributeNames;
     }
 
+//    public String generateList(){
+//        String s="";
+//        for (int i = 0; i <attributeNames.size(); i++) {
+//            s+=attributeNames;
+//
+//        }
+//        return s;
+//    }
+
+
+    public  String generate(){
+        String s="";
+        s+= '{';
+        for (int i=0;i<attributeNames.size();i++){
+            s+=attributeNames.get(i);
+        }
+        s+= '}';
+        return s;
+    }
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

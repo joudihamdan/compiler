@@ -10,6 +10,14 @@ public class UseRef extends Node{
     }
 
     @Override
+    public String generate() {
+        String s="";
+        s+= variablr;
+        s+=openpraces.generate();
+        return  s;
+    }
+
+    @Override
     public String toString() {
         return "UseRef{" +
                 "variablr='" + variablr +
